@@ -38,13 +38,27 @@ const QuizDisplay = ({ questions, onComplete }) => {
   const question = questions[currentQuestion];
 
   return (
+    <>
+    <div className="min-h-screen rounded-3xl border-2 border-gray-300 ">
+    <div className="w-full mx-auto">
+      <div className="mx-8 mt-5  bg-gray-200 h-auto rounded-xl relative">
+        <div className="absolute -top-8 right-0 w-52">
+          <img src="path.png" className="w-full "/>
+        </div>
+        <div className="text-center font-bold  pt-3 text-2xl text-[#001454c0]">
+          Please Answer the Questions Carefully!
+        </div>
+        <div className="text-center  p-2 text-md text-[#001454c0]">
+          All the Best !
+        </div>
+      </div>
     <motion.div
       key={currentQuestion}
       initial={{ opacity: 0, x: 50 }}
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: -50 }}
       transition={{ duration: 0.5 }}
-      className="p-6 bg-white rounded-lg shadow-md"
+      className="p-6 mt-8 mx-6 bg-white rounded-lg shadow-md"
     >
       <h2 className="text-xl font-bold mb-4 text-blue-800">
         {question.question}
@@ -109,6 +123,9 @@ const QuizDisplay = ({ questions, onComplete }) => {
         ></div>
       </div>
     </motion.div>
+    </div>
+    </div>
+    </>
   );
 };
 

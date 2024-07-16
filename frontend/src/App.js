@@ -44,10 +44,10 @@ const App = () => {
   return (
     <div className="min-h-screen bg-white p-3 lg:p-20">
       {!quizStarted && <StudentInput onStart={startQuiz} />}
-      {quizStarted && !quizCompleted && (
-        <QuizDisplay questions={questions} onComplete={completeQuiz} />
-      )}
-      {quizCompleted && <ResultsPage score={3} totalQuestions={5} />}
+        {quizStarted && !quizCompleted && (
+          <QuizDisplay questions={questions} onComplete={completeQuiz} />
+        )}
+        {quizCompleted && <ResultsPage score={3} totalQuestions={5} />}
     </div>
   );
 };
