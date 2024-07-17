@@ -1,8 +1,15 @@
 from flask import Flask, jsonify, request
 from gemini_utils import generate_quiz_questions
 from flask_cors import CORS
+from google.oauth2 import id_token
+from google.auth.transport import requests
+from dotenv import load_dotenv
+from mongo_utils import add_user
 
 import os
+import time
+
+load_dotenv()
 
 app = Flask(__name__)
 
@@ -24,6 +31,29 @@ def get_quiz():
     quiz = generate_quiz_questions(standard, subject, topics)
 
     return jsonify(quiz)
+
+
+@app.route("/auth/google", methods=["POST"])
+def google_auth():
+    print("this is working")
+    print(request.json)
+    credential = request.json["credential"]
+    print(credential)
+    try:
+        time.sleep(2)
+        idinfo = id_token.verify_oauth2_token(
+            credential, requests.Request(), os.environ.get("GOOGLE_CLIENT_ID")
+        )
+
+        if idinfo["iss"] not in ["accounts.google.com", "https://accounts.google.com"]:
+            raise ValueError("Wrong issuer.")
+
+        user = add_user(idinfo)
+
+        return jsonify({"success": True, "user": user}), 200
+    except Exception as e:
+        print(f"Error: {e}")
+        return jsonify({"success": False, "error": "Invalid token"}), 400
 
 
 if __name__ == "__main__":
